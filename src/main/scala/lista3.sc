@@ -48,10 +48,11 @@ filterR (Nil) (_ == "pies") == List()
 
 //Zadanie 4
 def splitAt[A](xs: List[A])(n: Int): (List[A], List[A]) =
-  def helper[A](xs: List[A])(n: Int)(acc: List[A]): (List[A], List[A]) =
-    xs match
-      case h :: t => if n > 0 then helper(t)(n-1)(h :: acc) else (acc.reverse,xs)
-      case Nil => (acc.reverse,xs)
+  @tailrec
+  def helper[A](tail: List[A])(n: Int)(acc: List[A]): (List[A], List[A]) =
+    tail match
+      case h :: t => if n > 0 then helper(t)(n-1)(h :: acc) else (acc.reverse,tail)
+      case Nil => (acc.reverse,tail)
   helper(xs)(n)(Nil)
 
 splitAt (List('a','b','c','d','e')) (2) == (List('a','b'), List('c','d','e'))
